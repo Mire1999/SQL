@@ -73,7 +73,12 @@ left join Firm g on f.Id=g.GlobalFirm_Id
 
 --12
 
-select f.Id,f.[Name],CONCAT_WS(' ',a.Line1,a.Line2,a.Line3,a.POBox,c.name) as [Address]
+select f.Id,f.[Name],CONCAT_WS(' ',a.Line1,a.Line2,a.Line3,a.POBox,
+	CASE
+	WHEN c.name is not null then CONCAT(', ',c.name)
+	else null
+	end
+	) as [Address]
 from firm f
 left join [Address] a on f.Address_Id=a.id
 left join Country c on a.country_id=c.id
